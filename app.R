@@ -70,9 +70,18 @@ ui <- fluidPage(
         uiOutput("countrySelectorOutput")
       ),
       hr(),
+      
+      # add a sweetness filter to add flexibility of choices
+      checkboxInput("filterSweetness", "Filter by sweetness", FALSE),
+      conditionalPanel(
+        condition = "input.filterSweetness",
+        uiOutput("sweetnessSelectorOutput")
+      ),
+      hr(),
+      
       span("Data source:", 
-        tags$a("OpenDataBC",
-             href = "https://www.opendatabc.ca/dataset/bc-liquor-store-product-price-list-current-prices")),
+           tags$a("OpenDataBC",
+                  href = "https://www.opendatabc.ca/dataset/bc-liquor-store-product-price-list-current-prices")),
       br(),
       span("Learn how to build this app", a(href = "http://deanattali.com/blog/building-shiny-apps-tutorial/", "with my Shiny tutorial")),
       br(), br(),
@@ -83,7 +92,8 @@ ui <- fluidPage(
       )
     ),
     mainPanel(
-      img(src = "www\bc-liquor-stores-squarelogo.png", height = 100, width = 200),
+      # added bc liquor logo to make it more visually interesting or add information
+      img(src = "bc-liquor-stores-squarelogo.png", height = 100, width = 300),
       h3(textOutput("summaryText")),
       downloadButton("download", "Download results"),
       br(),
@@ -95,11 +105,24 @@ ui <- fluidPage(
   )
 )
 
+
+
 server <- function(input, output, session) {
+
   output$countrySelectorOutput <- renderUI({
     selectInput("countryInput", "Country",
                 sort(unique(bcl$Country)),
+                # add availability of multiple choices of countries
+                multiple = TRUE,
                 selected = "CANADA")
+  })
+  
+  # add sweetness selector
+  output$sweetnessSelectorOutput <- renderUI({
+    selectInput("sweetnessInput", "Sweetness",
+                sort(unique(bcl$Sweetness)),
+                multiple = TRUE,
+                selected = 0)
   })
   
   output$typeSelectOutput <- renderUI({
@@ -128,6 +151,12 @@ server <- function(input, output, session) {
     if (input$filterCountry) {
       prices <- dplyr::filter(prices, Country == input$countryInput)
     }
+    
+    # filter by sweetness
+    if (input$filterSweetness) {
+      prices <- dplyr::filter(prices, Sweetness == input$sweetnessInput)
+    }
+    
     prices <- dplyr::filter(prices, Price >= input$priceInput[1],
                             Price <= input$priceInput[2])
     
