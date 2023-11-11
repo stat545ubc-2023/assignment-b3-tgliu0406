@@ -1,7 +1,7 @@
 # Redesign of BC Liquor Store App
 
 I chose Option A - BC Liquor app for this particular coding assignment. Here is the link to my redesigned BC Liquor Store App: [BC Liquor Store App](https://tgliu.shinyapps.io/assignment-b3-tgliu0406/). 
-This is a shiny app that is built upon [an existing app](https://daattali.com/shiny/bcl/) created by AttaliTech.
+This is a shiny app that is built upon [an existing app](https://daattali.com/shiny/bcl/) created by Dean Attali.
 
 ## Description
 
