@@ -97,7 +97,10 @@ ui <- fluidPage(
       h3(textOutput("summaryText")),
       downloadButton("download", "Download results"),
       br(),
-      plotOutput("plot"),
+      plotOutput("plot1"),
+      br(),
+      # add another histogram with x-axis being the price
+      plotOutput("plot2"),
       br(), br(),
       #tableOutput("prices")
       DT::dataTableOutput("prices")
@@ -166,7 +169,7 @@ server <- function(input, output, session) {
     prices
   })
   
-  output$plot <- renderPlot({
+  output$plot1 <- renderPlot({
     if (is.null(prices())) {
       return(NULL)
     }
@@ -175,6 +178,18 @@ server <- function(input, output, session) {
       geom_histogram(colour = "black") +
       theme_classic(20)
   })
+  
+  # add another histogram with x-axis being the price
+  output$plot2 <- renderPlot({
+    if (is.null(prices())) {
+      return(NULL)
+    }
+    
+    ggplot(prices(), aes(Price, fill = Type)) +
+      geom_histogram(colour = "black") +
+      theme_classic(20)
+  })
+  
   
   output$prices <- DT::renderDataTable({
     prices()
