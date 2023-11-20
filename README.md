@@ -10,6 +10,7 @@ Building on the given version of the BC Liquor Store App, my app added the follo
 1. A _sweetness filter_ that allows users to filter the liquors by sweetness.
 2. A _country of origin filter_ that allow the users to search for multiple countries of origin at once instead of one country at a time.
 3. An _image of the BC Liquor Store_ to make the app more visually appealing.
+4. A _histogram by price_ that allows users to visualize the distribution of prices of the filtered liquors directly.
 
 ## Data Source
 
